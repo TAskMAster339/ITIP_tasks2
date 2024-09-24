@@ -18,8 +18,8 @@ public class Tasks2 {
 
 //        System.out.println(secondBiggest(new int[]{3, 5, 8, 1, 2, 4}));
 
-//        System.out.println(localReverse("baobab", 'b'));
-//        System.out.println(localReverse("Hello, I’m under the water, please help me", 'e'));
+        System.out.println(localReverse("baobab", 'b'));
+        System.out.println(localReverse("Hello, I’m under the water, please help me", 'e'));
 
 //        System.out.println(equal(8, 1, 8));
 //        System.out.println(equal(5, 5, 5));
@@ -137,12 +137,18 @@ public class Tasks2 {
     // 8
     public static String localReverse(String str, char ch) {
         StringBuilder sb = new StringBuilder();
-        int lp = 0;
-        while (lp != str.length()) {
+        boolean flag = countChars(str, ch) % 2 == 0;
+        for (int lp = 0; lp < str.length(); ++lp){
             if (str.charAt(lp) != ch) {
                 sb.append(str.charAt(lp));
-            } else {
-                int rp = str.indexOf(ch, lp + 1);
+            }
+            else {
+                int rp = 0;
+                if (flag) {
+                    rp = str.indexOf(ch, lp + 1); // stem +1
+                } else{
+                    rp = str.indexOf(ch, str.indexOf(ch, lp + 1) + 1); // step +2
+                }
                 if (rp != -1) {
                     sb.append(new StringBuilder(str.substring(lp, rp + 1)).reverse());
                     lp = rp;
@@ -150,11 +156,15 @@ public class Tasks2 {
                     sb.append(str.charAt(lp));
                 }
             }
-            lp++;
         }
-
         return sb.toString();
-
+    }
+    private static int countChars(String str, char ch){
+        int k = 0;
+        for (char i : str.toCharArray()){
+            if (i == ch) k++;
+        }
+        return k;
     }
 
     // 9
